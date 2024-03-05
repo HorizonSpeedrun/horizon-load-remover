@@ -9,7 +9,7 @@ The up-to-date rules for the loads that count can be found [here](https://www.sp
 For PC, use the autosplitter that is automatically suggested in the `Splits Editor` after having selected the game.
 
 If necessary (e.g. CE Runs), the Autosplitter can manually be added to LiveSplit by adding a `Scriptable Auto Splitter` component in LiveSplit and downloading the script in the `autosplitter` subfolder:
-* [hzd-autosplitter.asl](https://raw.githubusercontent.com/Oekn5w/horizon-load-remover/master/autosplitter/hzd-autosplitter.asl)
+* [hzd-autosplitter.asl](https://raw.githubusercontent.com/HorizonSpeedrun/horizon-load-remover/master/autosplitter/hzd-autosplitter.asl)
 
 At the moment, only Load Removal is implemented in the script.
 
