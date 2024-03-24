@@ -37,10 +37,15 @@ Download the latest Zip archive from the Releases section (or clone the reposito
 
 #### Advanced Scene Switcher
 
+##### Full Settings import
+A full export of the settings is avaible, this includes both the general settings and the macro, be aware that all settings and macros you have made yourself will be overidden by this. If you have other Advanced Scene Switcher macros, the settings are described below, and you can still import the macro only.
+* Download the [full settings file](files/import-whole-ADVSS-settings/ADV-SS-set-LR-HZD-eng.txt)
+* Open the Advanced Scene Switcher Settings by going to Tools -> Advanced Scene Switcher
+* In the General Tab click import and select the file you've downloaded.
+* After confirming the import, the settings will close, reopen them, go to macros and set the Horizon source and reference image (see below)
+
 ##### General
 * Set the advanced Scene Switcher interval to the lowest possible (10ms)
-
-The LiveSplit Server component has to be started __manually__ at every LiveSplit launch if you are not using the customized version.
 
 The macro can be set up automatically with most settings set or completely manually.
 
@@ -107,13 +112,35 @@ Try running the beginning of the game with one of these settings:
 
 The first line's settings can directly be imported from the `1080p-eng.txt` file.
 
-Also, the 1080p versions from the table above can probably be used for other languages, maybe relax the threshold to `0.95`.
+Also, the 1080p versions from the table above can probably be used for other languages, maybe relax the threshold to e.g. `0.92`.
 
-If you have to adjust the edges of the screen in the Playstation settings (and crop and rescale the capture card image to fit the OBS screen), the area values given here might not hit the correct area, you can increase the area here to see if the image works (decrease X and Y, and increase W and H), or select `Show Pattern` and adjust the X and Y so that 2 Pixels to the left and above the `L` are visible.
+## Troubleshooting
 
-If that also doesn't work, you can capture a screenshot in OBS showing the whole default loading screen and apply the procedure described later or message one of the tool developers on the Horizon Speedruning Discord.
+### Nothing works at all
 
-### Generate own comparison image
+The best way to check this, is by checking what the selected source is capturing. Go to the macro condition and press `Show match`. This will show the part of the image that will be checked for matches. If no part is seen and the shown matching value is showing `nan`, then the source is inactive or the selected area is out of bounds.
+
+Check that the correct source is selected, and that you get cropping visible in the debug screen.
+
+RFS or FT in game and check if the Loading is recognized.
+
+If the rectangle is offset despite using the provided values the reason might be, that scaling applied to the OBS canvas to sources are not recognized by the image capture. If you have a scaled source (e.g. from Remote Play Display Capture on non-1080p screens), add a Group source to OBS, add the scaled source to that Group and select the Group as source for the Load Remover macro. For fine tuning the reference area see the next section
+
+### The normal Loading screen works, but not all of the 4 special ones
+
+From experience, the start of Proving cutscene loading screen has the worst match with the normal loading screen, so when having set up the LR, the set threshold can be checked by triggering the cutscene and see if the area is recognized. If not, relax the threshold, but you probably don't want to go below `0.91`.
+
+### Changed screen area on Playstation
+
+If you have to adjust the edges of the screen in the Playstation settings (and crop and rescale the capture card image to fit the OBS screen), the area values given here might not hit the correct area.
+
+To fine tune the area of interest select `Show match` in the macro condition and adjust the X and Y so that 2 Pixels to the left and above the `L` of `Loading` are visible.
+
+### Other
+
+If all that did not work, you can capture a screenshot in OBS showing the whole default loading screen and apply the procedure described later or message one of the tool developers on the Horizon Speedruning Discord.
+
+## Generate own comparison image
 
 Each text language, resolution and aspect ratio need its own comparison image.
 
@@ -123,10 +150,6 @@ To create one for your workflow follow these instructions (and create a Pull Req
 * Crop the `Loading` section from the screenshot (without the trailing dots), this crop will also give the area --- Default Paint is surprisingly good for that as it will show the pixel-perfect cropping area that needs to be entered in the Scene Switcher setup
 * Open the crop in GIMP (or something else) and use the wand tool to select the surrounding and the inside of `O` s and make these fully transparent
 * Save the image as PNG with alpha layer
-
-## Troubleshooting
-
-TBD
 
 ## License
 
