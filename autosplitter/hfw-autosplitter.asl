@@ -5,6 +5,7 @@ state("HorizonForbiddenWest", "v38/9660601-Steam")
 {
     // Steam 1.0.38.0
     uint stateInd : 0x026B1828;
+    uint stateIndSecondary : 0x026B182C;
 }
 
 /*
@@ -43,6 +44,12 @@ startup
         return hash;
     };
     vars.CalcModuleHash = CalcModuleHash;
+
+    vars.prevUpdateTime = -1;
+
+    // memory to store actual previous states
+    vars.stateIndMem1 = 0;
+    vars.stateIndMem2 = 0;
 }
 
 init
@@ -79,22 +86,40 @@ isLoading
 {
     return (
         // Loading save files and RFS
-        current.stateInd == 11 ||
-        current.stateInd == 12 ||
+        (current.stateInd == 11 && vars.stateIndMem1 != 10) ||
+        (current.stateInd == 12 && vars.stateIndMem2 != 10) ||
         // NG+ start
         current.stateInd == 32 ||
         current.stateInd == 33 ||
+        current.stateInd == 34 ||
         // FT from campfire
         current.stateInd == 47 ||
         current.stateInd == 48 ||
-        current.stateInd == 49 ||
+        (current.stateInd == 49 && vars.stateIndMem2 != 47) || // extra condition needed for Standby Screen option Informative
         // FT from hotbar or map
         current.stateInd == 51 ||
         current.stateInd == 52 ||
-        current.stateInd == 53 ||
+        (current.stateInd == 53 && vars.stateIndMem2 != 51) || // extra condition needed for Standby Screen option Informative
         // for convenience to copy lines
         false
     );
+}
+
+update
+{
+    // Debug output
+    var timeSinceLastUpdate = Environment.TickCount - vars.prevUpdateTime;
+    if (timeSinceLastUpdate > 500 && vars.prevUpdateTime != -1)
+    {
+        vars.DebugOutput("Last update "+timeSinceLastUpdate+"ms ago");
+    }
+    vars.prevUpdateTime = Environment.TickCount;
+
+    if (current.stateInd != old.stateInd)
+    {
+        vars.stateIndMem2 = vars.stateIndMem1;
+        vars.stateIndMem1 = old.stateInd;
+    }
 }
 
 exit
