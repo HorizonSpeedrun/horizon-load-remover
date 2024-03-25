@@ -4,6 +4,7 @@
 state("HorizonForbiddenWest", "v38/9660601-Steam")
 {
     // Steam 1.0.38.0
+    float gameSpeed : 0x0210BC98;
     uint stateInd : 0x026B1828;
     uint stateIndSecondary : 0x026B182C;
 }
@@ -85,6 +86,7 @@ init
 isLoading
 {
     return (
+        (current.gameSpeed == 0.0f) && (
         // Loading save files and RFS
         (current.stateInd == 11 && vars.stateIndMem1 != 10) ||
         (current.stateInd == 12 && vars.stateIndMem2 != 10) ||
@@ -102,6 +104,7 @@ isLoading
         (current.stateInd == 53 && vars.stateIndMem2 != 51) || // extra condition needed for Standby Screen option Informative
         // for convenience to copy lines
         false
+        )
     );
 }
 
