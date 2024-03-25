@@ -64,6 +64,9 @@ isLoading
         // Loading save files and RFS
         current.stateInd == 11 ||
         current.stateInd == 12 ||
+        // NG+ start
+        current.stateInd == 32 ||
+        current.stateInd == 33 ||
         // FT from campfire
         current.stateInd == 47 ||
         current.stateInd == 48 ||
