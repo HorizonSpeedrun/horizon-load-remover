@@ -3,8 +3,25 @@
 
 state("HorizonForbiddenWest", "v38/9660601-Steam")
 {
+    // Steam 1.0.38.0
     uint stateInd : 0x026B1828;
 }
+
+/*
+Getting address for new game version:
+
+Scan settings:
+8 bytes
+in static memory (HFW in the process dropdown)
+Hex-Value 000000200000000D
+
+Procedure:
+1) Pause game (don't change from selected "Resume" during tab-out)
+2) Perform scan
+3) Change the selection in the pause screen
+
+The address we need is the one that has changed to 000000200000000E
+*/
 
 startup
 {
