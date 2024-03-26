@@ -4,25 +4,30 @@
 state("HorizonForbiddenWest", "v38/9660601-Steam")
 {
     // Steam 1.0.38.0
-    float gameSpeed : 0x0210BC98;
-    uint stateInd : 0x026B1828;
-    uint stateIndSecondary : 0x026B182C;
+    uint loading : 0x0896D790, 0x4B4;
+    uint gamePaused : 0x0896D790, 0x20;
 }
 
 /*
 Getting address for new game version:
 
-Scan settings:
-8 bytes
-in static memory (HFW in the process dropdown)
-Hex-Value 000000200000000D
+Value (HEX)
+48 8B 05 ?? ?? ?? ?? 48 85 C0 74 15 83 B8 B4 04 00 00 00 75 0C 83 B8 74 06 00 00 02 74 03 B0 01 C3 32 C0
 
-Procedure:
-1) Pause game (don't change from selected "Resume" during tab-out)
-2) Perform scan
-3) Change the selection in the pause screen
+Alternatively, giving multiple results:
+83 B8 B4 04 00 00 00 (hard coded for RAX register)
+83 ?? B4 04 00 00 00 (matches any register)
 
-The address we need is the one that has changed to 000000200000000E
+Options:
+In static memory (HFW in the process dropdown)
+Clear Writable, Check Executable flags
+Clear Fast Scan (we probably don't have alignment)
+
+Perform Scan
+
+Right Click -> Disassemble this memory region
+
+Get the value after "HorizonForbiddenWest+" -> this is the offset we need
 */
 
 startup
@@ -48,9 +53,6 @@ startup
 
     vars.prevUpdateTime = -1;
 
-    // memory to store actual previous states
-    vars.stateIndMem1 = 0;
-    vars.stateIndMem2 = 0;
 }
 
 init
@@ -85,27 +87,7 @@ init
 
 isLoading
 {
-    return (
-        (current.gameSpeed == 0.0f) && (
-        // Loading save files and RFS
-        (current.stateInd == 11 && vars.stateIndMem1 != 10) ||
-        (current.stateInd == 12 && vars.stateIndMem2 != 10) ||
-        // NG+ start
-        current.stateInd == 32 ||
-        current.stateInd == 33 ||
-        current.stateInd == 34 ||
-        // FT from campfire
-        current.stateInd == 47 ||
-        current.stateInd == 48 ||
-        (current.stateInd == 49 && vars.stateIndMem2 != 47) || // extra condition needed for Standby Screen option Informative
-        // FT from hotbar or map
-        current.stateInd == 51 ||
-        current.stateInd == 52 ||
-        (current.stateInd == 53 && vars.stateIndMem2 != 51) || // extra condition needed for Standby Screen option Informative
-        // for convenience to copy lines
-        false
-        )
-    );
+    return (current.loading >= 1);
 }
 
 update
@@ -117,12 +99,6 @@ update
         vars.DebugOutput("Last update "+timeSinceLastUpdate+"ms ago");
     }
     vars.prevUpdateTime = Environment.TickCount;
-
-    if (current.stateInd != old.stateInd)
-    {
-        vars.stateIndMem2 = vars.stateIndMem1;
-        vars.stateIndMem1 = old.stateInd;
-    }
 }
 
 exit
