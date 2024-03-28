@@ -1,9 +1,14 @@
 // Created by ISO2768mK
 // Version detection from the Death Stranding and Alan Wake ASL
 
-state("HorizonForbiddenWest", "v38/9660601-Steam")
+state("HorizonForbiddenWest", "v1.0.43.0-v43/9676900-Steam")
 {
-    // Steam 1.0.38.0
+    uint loading : 0x0896FA18, 0x4B4;
+    uint gamePaused : 0x0896FA18, 0x20;
+}
+
+state("HorizonForbiddenWest", "v1.0.38.0-v38/9660601-Steam")
+{
     uint loading : 0x0896D790, 0x4B4;
     uint gamePaused : 0x0896D790, 0x20;
 }
@@ -65,16 +70,15 @@ init
     vars.DebugOutput(module.ModuleName + ": Module Size " + moduleSize + ", SHA256 Hash " + hash);
 
     version = "";
-    if (hash == "6629083175B524CFF9EE3369A7EB8E1D6188B421032B84AFFEE60FD7BE767449")
+    if (hash == "187A532FDDDAB188EF0319634028969D3E1CF0431C9458F5A9B6AE4B3C0196EC")
     {
-        version = "v38/9660601-Steam";
-        // also denoted as Steam version 1.0.38.0
+        version = "v1.0.43.0-v43/9676900-Steam";
     }
-    /*else if (hash == "PLACEHOLDER")
+    else if (hash == "6629083175B524CFF9EE3369A7EB8E1D6188B421032B84AFFEE60FD7BE767449")
     {
-        version = "PLACEHOLDER";
+        version = "v1.0.38.0-v38/9660601-Steam";
     }
-    */
+    
     if (version != "")
     {
         vars.DebugOutput("Recognized version: " + version);
