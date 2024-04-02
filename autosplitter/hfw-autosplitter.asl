@@ -1,17 +1,17 @@
 // Created by ISO2768mK
 // Version detection from the Death Stranding and Alan Wake ASL
 
-state("HorizonForbiddenWest", "v1.0.43.0-v43/9676900-2-Steam")
+state("HorizonForbiddenWest", "v1.0.43.0-2-Steam")
 {
     uint loading : 0x0896FA58, 0x4B4;
     uint gamePaused : 0x0896FA58, 0x20;
 }
-state("HorizonForbiddenWest", "v1.0.43.0-v43/9676900-Steam")
+state("HorizonForbiddenWest", "v1.0.43.0-Steam")
 {
     uint loading : 0x0896FA18, 0x4B4;
     uint gamePaused : 0x0896FA18, 0x20;
 }
-state("HorizonForbiddenWest", "v1.0.38.0-v38/9660601-Steam")
+state("HorizonForbiddenWest", "v1.0.38.0-Steam")
 {
     uint loading : 0x0896D790, 0x4B4;
     uint gamePaused : 0x0896D790, 0x20;
@@ -76,15 +76,15 @@ init
     version = "";
     if (hash == "5C77F54C0FE4B37E1024B607E0ED18649995617FF2BB12E2498378150BC52BB7")
     {
-        version = "v1.0.43.0-v43/9676900-2-Steam";
+        version = "v1.0.43.0-2-Steam";
     }
     else if (hash == "187A532FDDDAB188EF0319634028969D3E1CF0431C9458F5A9B6AE4B3C0196EC")
     {
-        version = "v1.0.43.0-v43/9676900-Steam";
+        version = "v1.0.43.0-Steam";
     }
     else if (hash == "6629083175B524CFF9EE3369A7EB8E1D6188B421032B84AFFEE60FD7BE767449")
     {
-        version = "v1.0.38.0-v38/9660601-Steam";
+        version = "v1.0.38.0-Steam";
     }
     
     if (version != "")
