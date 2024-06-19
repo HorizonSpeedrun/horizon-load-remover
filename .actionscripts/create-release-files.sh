@@ -23,5 +23,7 @@ git ls-files -- ./autosplitter ':!:*.md' | zip -FS -q -@ "$TARGETFOLDER/$FILENAM
 # Create PDFs
 echo "Create PDF from README"
 pandoc --from=gfm --to=pdf -o "$TARGETFOLDER/README.pdf" "$REPOROOT/README.md"
+echo "Create PDF from Video based LR"
+pandoc --from=gfm --to=pdf -o "$TARGETFOLDER/Video Based LR.pdf" "$REPOROOT/video-based-LR.md"
 
 echo "Done"
