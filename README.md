@@ -18,8 +18,6 @@ At the moment, only Load Removal is implemented in the scripts.
 
 Based on previous work on the load remover by [Blegas78](https://github.com/blegas78/autoSplitters) and the [description in the SceneSwitcher wiki](https://github.com/WarmUpTill/SceneSwitcher/wiki/Activate-overlay-to-hide-parts-of-the-screen).
 
-At its core, the new video-based load remover is using the Advanced Scene Switcher plugin in OBS to determine if a loadscreen is active and gives the pause / resume commands to the LiveSplit Server component via a Lua script.
-
 Please see [the dedicated README for its setup](video-based-LR.md)
 
 ## License
