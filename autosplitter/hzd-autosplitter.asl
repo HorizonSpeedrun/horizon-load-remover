@@ -4,14 +4,19 @@
 
 state("HorizonZeroDawn", "v181/7517962-Steam")
 {
-    ulong worldPtr : 0x0714F830;
     uint loading : 0x0714F830, 0x4B4;
 }
 state("HorizonZeroDawn", "v181/7517962-GoG")
 {
-    ulong worldPtr : 0x0714C728;
     uint loading : 0x0714C728, 0x4B4;
 }
+/*
+Placeholder for Epic Games version
+state("HorizonZeroDawn", "v181/7517962-Epic")
+{
+    uint loading : ????, 0x4B4;
+}
+*/
 
 /*
 Getting address for new game version, giving multiple results:
@@ -59,9 +64,7 @@ init
     var module = modules.Single(x => String.Equals(x.ModuleName, "HorizonZeroDawn.exe", StringComparison.OrdinalIgnoreCase));
     // No need to catch anything here because LiveSplit wouldn't have attached itself to the process if the name wasn't present
 
-    var moduleSize = module.ModuleMemorySize;
     var hash = vars.CalcModuleHash(module);
-    vars.DebugOutput(module.ModuleName + ": Module Size " + moduleSize + ", SHA256 Hash " + hash);
 
     version = "";
     if (hash == "866C131C0BBE6E60DBF4332618BBC2109E60F6620106CFF925D7A5399220AECA")
@@ -73,6 +76,13 @@ init
     {
         version = "v181/7517962-GoG";
     }
+    /*
+    else if (hash == "????")
+    {
+        version = "v181/7517962-Epic";
+    }
+    */
+
     if (version != "")
     {
         vars.DebugOutput("Recognized version: " + version);
@@ -85,7 +95,7 @@ init
 
 isLoading
 {
-    return (current.worldPtr > 0 && current.loading >= 1);
+    return (current.loading >= 1);
 }
 
 exit
