@@ -13,6 +13,25 @@ state("HorizonZeroDawn", "v181/7517962-GoG")
     uint loading : 0x0714C728, 0x4B4;
 }
 
+/*
+Getting address for new game version, giving multiple results:
+83 B9 B4 04 00 00 00 (hard coded for RCX register)
+83 ?? B4 04 00 00 00 (matches any register)
+
+Options:
+In static memory (HZD in the process dropdown)
+Clear Writable, Check Executable flags
+Clear Fast Scan (we probably don't have alignment)
+
+Perform Scan
+
+Right Click -> Disassemble this memory region
+
+check for je, test and mov opcode preceding in order that op -> we need the address from the mov
+
+Get the value after "HorizonZeroDawn+" -> this is the offset we need
+*/
+
 startup
 {
     Action<string> DebugOutput = (text) => {
