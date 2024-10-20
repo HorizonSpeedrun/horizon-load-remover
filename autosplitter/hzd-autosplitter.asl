@@ -40,9 +40,17 @@ Get the value after "HorizonZeroDawn+" -> this is the offset we need
 startup
 {
     Action<string> DebugOutput = (text) => {
-        print("[HZD Load Remover] " + text);
+        if (false)
+        {
+            print("[HZD Load Remover Debug] " + text);
+        }
     };
     vars.DebugOutput = DebugOutput;
+
+    Action<string> InfoOutput = (text) => {
+        print("[HZD Load Remover] " + text);
+    };
+    vars.InfoOutput = InfoOutput;
 
     Func<ProcessModuleWow64Safe, string> CalcModuleHash = (module) => {
         byte[] exeHashBytes = new byte[0];
@@ -85,11 +93,11 @@ init
 
     if (version != "")
     {
-        vars.DebugOutput("Recognized version: " + version);
+        vars.InfoOutput("Recognized version: " + version);
     }
     else
     {
-        vars.DebugOutput("Unrecognized version of the game.");
+        vars.InfoOutput("Unrecognized version of the game.");
     }
 }
 
