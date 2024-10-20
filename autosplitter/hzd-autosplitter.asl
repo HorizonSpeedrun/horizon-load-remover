@@ -65,6 +65,31 @@ startup
         return hash;
     };
     vars.CalcModuleHash = CalcModuleHash;
+
+    Func<double[], double[], double, bool> BoundsCheckCircLat = (pos, posCirc, radius) => {
+        double deltaX = pos[0] - posCirc[0];
+        double deltaY = pos[1] - posCirc[1];
+        return (deltaX * deltaX + deltaY * deltaY <= radius * radius);
+    };
+    vars.BoundsCheckCircLat = BoundsCheckCircLat;
+
+    Func<double[], double[], double, double[], bool> BoundsCheckCyl = (pos, posCyl, radius, boundZ) => {
+        if (pos[2] < boundZ[0] || pos[2] > boundZ[1])
+        {
+            return false;
+        }
+        return vars.BoundsCheckCircLat(pos, posCyl, radius);
+    };
+    vars.BoundsCheckCyl = BoundsCheckCyl;
+
+    Func<double[], double[], double, bool> BoundsCheckSph = (pos, posSph, radius) => {
+        double deltaX = pos[0] - posSph[0];
+        double deltaY = pos[1] - posSph[1];
+        double deltaZ = pos[2] - posSph[2];
+        return (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ <= radius * radius);
+    };
+    vars.BoundsCheckSph = BoundsCheckSph;
+
 }
 
 init
