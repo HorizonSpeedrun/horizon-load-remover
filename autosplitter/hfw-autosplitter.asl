@@ -5,17 +5,10 @@ state("HorizonForbiddenWest", "v1.5.80.0-Steam")
 {
     uint loading : 0x08983150, 0x4B4;
 }
-/*
-Placeholders for GoG and Epic versions
-state("HorizonForbiddenWest", "v1.5.80.0-GoG")
-{
-    uint loading : ????, 0x4B4;
-}
 state("HorizonForbiddenWest", "v1.5.80.0-Epic")
 {
-    uint loading : ????, 0x4B4;
+    uint loading : 0x0895EF50, 0x4B4;
 }
-*/
 
 /*
 Getting address for new game version:
@@ -75,16 +68,10 @@ init
     {
         version = "v1.5.80.0-Steam";
     }
-    /*
-    else if (hash == "????")
-    {
-        version = "v1.5.80.0-GoG";
-    }
-    else if (hash == "????")
+    else if (hash == "8274587FA89612ADF904BDB2554DEA84D718B84CF691CCA9D2FB7D8D5D5D659B")
     {
         version = "v1.5.80.0-Epic";
     }
-    */
     
     if (version != "")
     {
