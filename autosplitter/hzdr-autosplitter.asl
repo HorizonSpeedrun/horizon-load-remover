@@ -1,9 +1,9 @@
 // Created by ISO2768mK and DorianSnowball
 // Version detection from the Death Stranding and Alan Wake ASL
 
-state("HorizonZeroDawnRemastered", "v1.0.38.0-Steam")
+state("HorizonZeroDawnRemastered", "v1.1.42.0-Steam")
 {
-    uint loading : 0x099A4BB8, 0x4DC;
+    uint loading : 0x099A5ED0, 0x4DC;
 }
 /*
 Placeholder for Epic Games version
@@ -62,9 +62,9 @@ init
     var hash = vars.CalcModuleHash(module);
 
     version = "";
-    if (hash == "CC70BDF81AE0ADC7D2CABDC3975DEDB3C1A588B72F3E7804FD1CEDA8B292AE33")
+    if (hash == "AE9D9A339C202609CF360CFEB93E253A12DBCB5C5B6D61E92E9D0255BFAF0C86")
     {
-        version = "v1.0.38.0-Steam";
+        version = "v1.1.42.0-Steam";
     }
     /*
     else if (hash == "????")
