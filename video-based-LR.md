@@ -4,16 +4,18 @@ Based on previous work on the load remover by [Blegas78](https://github.com/bleg
 
 At its core, the new video-based load remover is using the Advanced Scene Switcher plugin in OBS to determine if a loadscreen is active and gives the pause / resume commands to the LiveSplit Server component via a named pipe to LiveSplit.
 
+The named pipe command from ASS can sometimes fail. The circumstances of this are not yet identified.
+
+### Note about Horizon Zero Dawn Remastered
+
+For the Remastered version of Zero Dawn, the Loading screens have a fade out. The start of the fade-out is the end of the loading, so the image threshold has to be very tight. It is set very close to identical to the reference image, so compression artifacts (or setting the wrong color space) from the capture card can cause the reference image to not be close enough. Please head to the Horizon Discord and post about this issue in #tech-help.
+
 ### Prerequistites
 * OBS
 * [Advanced Scene Switcher Plugin](https://github.com/WarmUpTill/SceneSwitcher/) (1.25 or later)
 * No special requirements for the LiveSplit Layout
 
 ### Setup
-Advanced Scene Switcher 1.24 and later contains an `else` branch in the macros, which is used here. If that is not available, another macro with the negated condition has to be added (doubling the performance impact) to resume the timer.
-
-Significant performance improvements have been implemented in 1.24.2 for the video condition and false-positive loading screens were removed in 1.25.
-
 The setup is described for a 1080p source. Scaled sources are possible when they are fed through an extra Scene or Group.
 
 Download the latest Zip archive from the Releases section (or clone the repository). All you need is in the `files` subdirectory.
@@ -21,11 +23,11 @@ Download the latest Zip archive from the Releases section (or clone the reposito
 #### Advanced Scene Switcher
 
 ##### Full Settings import
-A full export of the settings is avaible, this includes both the general settings and the macro, be aware that all settings and macros you have made yourself will be overidden by this. If you have other Advanced Scene Switcher macros, the settings are described below, and you can still import the macro only.
-* Download the [full settings file](files/import-whole-ADVSS-settings/ADV-SS-set-LR-HZD-eng.txt)
+A full export of the settings is avaible, this includes both the general settings and the macro, be aware that all settings and macros you have made yourself will be overidden by this. If you have other Advanced Scene Switcher macros, the settings are described below, and you can still import the macro only. This import contains all three macros described below (HZD english, HZDR and the disabling macro).
+* Download the [full settings file](files/import-whole-ADVSS-settings/all-macros.txt)
 * Open the Advanced Scene Switcher Settings by going to Tools -> Advanced Scene Switcher
 * In the General Tab click import and select the file you've downloaded.
-* After confirming the import, the settings will close, reopen them, go to macros and set the Horizon source and reference image (see below)
+* After confirming the import, the settings will close, reopen them, go to macros and set the Horizon sources and reference images (see below)
 
 ##### General
 * Set the advanced Scene Switcher interval to the lowest possible (10ms)
@@ -34,18 +36,28 @@ The macro can be set up automatically with most settings set or completely manua
 
 ##### Macro import:
 * Right click on the macro section and select `Import`
-* Paste the string from [files/import-macros/1080p-eng-default.txt](files/import-macros/1080p-eng-default.txt) into the box
+* Paste the string from the corresponding file  into the box
 * Select the Horizon source according to your setup
-* Select the path to the image 
+* Select the path to the reference image
 
-##### Macro manual setup:
+For the Zero Dawn Original, the macro is here: [files/import-macros/HZD-1080p-eng.txt](files/import-macros/HZD-1080p-eng.txt)
+
+For the Zero Dawn Remastered, the macro is here: [files/import-macros/HZDR-1080p.txt](files/import-macros/HZDR-1080p.txt)
+
+There is also another macro provided, that disables both macros when OBS is started. This is because having both running can generate a big load on the CPU. Make sure to enable the one for the corresponding game you want to run that session.
+
+That macro is here: [files/import-macros/Automatic-pause-macros.txt](files/import-macros/Automatic-pause-macros.txt)
+
+If you want you can expand on the macros with the other functionalities of ASS and set the macro accordingly to the game that is selected on Twitch for example.
+
+##### Macro manual setup - Horizon Zero Dawn (Original):
 * Add a new macro
 * Condition:
   * Ensure that `Perform actions only on condition change` is checked
   * Type: Video
   * Select the Source or Scene that shows the gameplay
   * Select `matches pattern` as mode
-  * Choose `img-1080p.png` as reference
+  * Choose `ref-HZD-1080p.png` as reference
   * Threshold to `0.95`
   * Check the `Use alpha channel as mask` checkbox
   * Pattern matching method `Squared difference`
@@ -53,13 +65,13 @@ The macro can be set up automatically with most settings set or completely manua
 * Action branch 1 (if):
   * Type: `File`
   * Select the dropdowns to show:
-    * Mode: `Append`
+    * Mode: `Write`
     * File: `\\.\pipe\LiveSplit`
     * Content: `pausegametime` (no line break)
 * Action branch 2 (else):
   * Type: `File`
   * Select the dropdowns to show:
-    * Mode: `Append`
+    * Mode: `Write`
     * File: `\\.\pipe\LiveSplit`
     * Content: `unpausegametime` (no line break)
 
@@ -67,22 +79,34 @@ The final macro can be seen here:
 
 ![macro setup](./dev-resources/adv-setup.png)
 
-### Implemented resolutions and languages
+##### Macro manual setup - Horizon Zero Dawn Remastered:
+* Add a new macro
+* Condition:
+  * Ensure that `Perform actions only on condition change` is checked
+  * Type: Video
+  * Select the Source or Scene that shows the gameplay
+  * Select `matches pattern` as mode
+  * Choose `ref-HZDR-1080p.png` as reference
+  * Threshold to `0.99`
+  * Check the `Use alpha channel as mask` checkbox
+  * Pattern matching method `Squared difference`
+  * Check area (X, Y, W, H): `12,176,561,371`
+* Action branch 1 (if):
+  * Type: `File`
+  * Select the dropdowns to show:
+    * Mode: `Write`
+    * File: `\\.\pipe\LiveSplit`
+    * Content: `pausegametime` (no line break)
+* Action branch 2 (else):
+  * Type: `File`
+  * Select the dropdowns to show:
+    * Mode: `Write`
+    * File: `\\.\pipe\LiveSplit`
+    * Content: `unpausegametime` (no line break)
 
-The following table shows the available comparison images and their area settings
+### Implemented resolutions and languages (Original Zero Dawn)
 
-#### PC (legacy)
-
-| Resolution | Language | X | Y | Width | Height | Threshold | Filename |
-|---|---|---|---|---|---|---|---|
-| 1080p | English | 99 | 976 | 115 | 25 | 0.97 | `img-1080p.png` |
-| 1080p | German | 99 | 976 | 80 | 21 | 0.97 | `img-1080p-german.png` |
-| 1080p | Portugese<br/>Brasilian | 99 | 976 | 157 | 24 | 0.96 | `img-1080p-pt-br.png` |
-| 720p | English | 66 | 650 | 77 | 17 | 0.97 | `img-720p.png` |
-| 1440p<br/>(2560x1440) | English | 133 | 1301 | 152 | 33 | 0.96 | `img-1440p.png` |
-| 1440p-UW<br/>(3440x1440) | English | 573 | 1301 | 152 | 33 | 0.96 | `img-1440p.png` |
-
-#### Console
+The following table shows the available comparison images and their area settings. The Remastered version is independent from the selected language.
 
 Testing the LR with Remote Play and via Capture Card revealed that the threshold might need to be relaxed to capture the non-default loading screens reliably. Via Capture Card the `Loading...` font was anti-aliased more than on PC and Remote Play (this might be a capture card setting). Because of that a new image was generated.
 
@@ -90,10 +114,12 @@ Try running the beginning of the game with one of these settings:
 
 | Resolution | Language | X | Y | Width | Height | Threshold | Filename |
 |---|---|---|---|---|---|---|---|
-| 1080p | English | 99 | 976 | 115 | 25 | 0.95 | `img-1080p.png` |
-| 1080p | English | 99 | 976 | 115 | 25 | 0.95 - 0.97 | `img-1080p-capture-card.png` |
+| 1080p | English | 99 | 976 | 115 | 25 | 0.95 | `ref-HZD-1080p.png` |
+| 1080p | English | 99 | 976 | 115 | 25 | 0.95 - 0.97 | `ref-HZD-1080p-capture-card.png` |
+| 1080p | German | 99 | 976 | 80 | 21 | 0.97 | `ref-HZD-1080p-german.png` |
+| 1080p | Portugese<br/>Brasilian | 99 | 976 | 157 | 24 | 0.96 | `ref-HZD-1080p-pt-br.png` |
 
-The first line's settings can directly be imported from the `1080p-eng.txt` file.
+The first line's settings can directly be imported from the `HZD-1080p-eng.txt` file.
 
 Also, the 1080p versions from the table above can probably be used for other languages, maybe relax the threshold to e.g. `0.92`.
 
@@ -111,6 +137,8 @@ If the rectangle is offset despite using the provided values the reason might be
 
 ### The normal Loading screen works, but not all of the 4 special ones
 
+For the Remaster, the special loading screens are no longer considered loads because we don't have a way to detect them, and they should be equal in time. If the loading screen is very long, start rebooting the game between runs.
+
 From experience, the start of Proving cutscene loading screen has the worst match with the normal loading screen, so when having set up the LR, the set threshold can be checked by triggering the cutscene and see if the area is recognized. If not, relax the threshold, but you probably don't want to go below `0.91`.
 
 ### Changed screen area on Playstation
@@ -123,7 +151,7 @@ To fine tune the area of interest select `Show match` in the macro condition and
 
 If all that did not work, you can capture a screenshot in OBS showing the whole default loading screen and apply the procedure described later or message one of the tool developers on the Horizon Speedruning Discord.
 
-## Generate own comparison image
+## Generate own comparison image (Original Zero Dawn)
 
 Each text language, resolution and aspect ratio need its own comparison image.
 

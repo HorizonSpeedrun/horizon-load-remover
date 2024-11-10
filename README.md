@@ -1,6 +1,6 @@
 # Horizon Load Remover
 
-This repository serves the memory-based load removers for both Horizon Zero Dawn and Horizon Forbidden West on PC. It also provides a OBS-centric approach to video-based load removal for console speedruns.
+This repository serves the memory-based load removers for both Horizon Zero Dawn and Horizon Forbidden West on PC. It also provides a OBS-centric approach to video-based load removal for console speedruns for Horizon Zero Dawn and its Remastered version.
 
 The up-to-date rules for Horizon Zero Dawn for the loads that count can be found [here](https://www.speedrun.com/hzd/guides/6atmp).
 
@@ -9,8 +9,9 @@ The up-to-date rules for Horizon Zero Dawn for the loads that count can be found
 For PC, use the autosplitter that is automatically suggested in the `Splits Editor` after having selected the game.
 
 If necessary (e.g. CE Runs), the Autosplitter can manually be added to LiveSplit by adding a `Scriptable Auto Splitter` component in LiveSplit and downloading the corresponding script in the `autosplitter` subfolder:
-* [hzd-autosplitter.asl](https://raw.githubusercontent.com/HorizonSpeedrun/horizon-load-remover/master/autosplitter/hzd-autosplitter.asl)
-* [hfw-autosplitter.asl](https://raw.githubusercontent.com/HorizonSpeedrun/horizon-load-remover/master/autosplitter/hfw-autosplitter.asl)
+* [Horizon Zero Dawn Load Remover](https://raw.githubusercontent.com/HorizonSpeedrun/horizon-load-remover/master/autosplitter/hzd-autosplitter.asl)
+* [Horizon Zero Dawn Remastered Load Remover](https://raw.githubusercontent.com/HorizonSpeedrun/horizon-load-remover/master/autosplitter/hzdr-autosplitter.asl)
+* [Horizon Forbidden West Load Remover](https://raw.githubusercontent.com/HorizonSpeedrun/horizon-load-remover/master/autosplitter/hfw-autosplitter.asl)
 
 At the moment, only Load Removal is implemented in the scripts.
 
