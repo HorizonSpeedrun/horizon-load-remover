@@ -1,1 +1,3 @@
 files/import-macros/*.txt binary
+*.png binary
+*.sh binary
