@@ -18,6 +18,16 @@ At its core, the new video-based load remover is using the Advanced Scene Switch
 
 For the Remastered version of Zero Dawn, the Loading screens have a fade out. The start of the fade-out is decided to be the end of the loading, so the image threshold has to be very tight. It is set very close to identical to the reference image (`0.99`), so compression artifacts (or setting the wrong color space) from the capture card can cause the reference image to not be close enough. Please head to the Horizon Discord and post about this issue in #tech-help or try to make your own comparision image. The threshold must not be lowered.
 
+### Note about splitting when no load has occurred since start
+
+When using the OBS based load remover, the game time is only used after the first load. If you split before the first load, you will have a RealTime, but the GameTime of that split will read `-`.
+
+This can happen in the Remastered in NG runs. For now, this behavior will not be changed on LiveSplit's side, because some workflow might depend on the current behavior.
+
+To fix this (it pretty much only affects our load remover), simply activate the game's PC autosplitter in LiveSplit's Splits Editor. We've adapted the autosplitter files to always initialize the GameTime when a new run is started which doesn't affect PC at all.
+
+If you don't have the game set to one of the games (e.g. when doing a multi-game run), and still want this functionality, add a `Scriptable Auto Splitter` to your LiveSplit layout and select the [files/ASL/AlwaysUseGameTime.asl](files/ASL/AlwaysUseGameTime.asl) file. You won't have any indication that the file is loaded correctly in the layout settings, but it'll do its job.
+
 ### Prerequistites
 * OBS
 * [Advanced Scene Switcher Plugin](https://github.com/WarmUpTill/SceneSwitcher/) (1.28.1 or later)
