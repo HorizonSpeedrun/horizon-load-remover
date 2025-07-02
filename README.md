@@ -14,6 +14,8 @@ Based on previous work on the load remover by [Blegas78](https://github.com/bleg
 
 At its core, the new video-based load remover is using the Advanced Scene Switcher plugin in OBS to determine if a loadscreen is active and gives the pause / resume commands to the LiveSplit Server component via a Websocket connection to LiveSplit.
 
+The setup is explained in video form here (including me failing spectacularly in GIMP): [Youtube](https://youtu.be/hogLZuQGPrI)
+
 ### Note about Horizon Zero Dawn Remastered
 
 For the Remastered version of Zero Dawn, the Loading screens have a fade out. The start of the fade-out is decided to be the end of the loading, so the image threshold has to be very tight. It is set very close to identical to the reference image (`0.99`), so compression artifacts (or setting the wrong color space) from the capture card can cause the reference image to not be close enough. Please head to the Horizon Discord and post about this issue in #tech-help or try to make your own comparision image. The threshold must not be lowered.
